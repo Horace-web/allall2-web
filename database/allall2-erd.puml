@@ -1,0 +1,70 @@
+@startuml
+entity "admin_users" {
+  * id : uuid <<PK>>
+  --
+  email : string
+  password_hash : string
+  created_at : timestamp
+}
+
+entity "categories" {
+  * id : uuid <<PK>>
+  --
+  * created_by : uuid <<FK>>
+  nom : string
+  slug : string
+  created_at : timestamp
+}
+
+entity "articles" {
+  * id : uuid <<PK>>
+  --
+  * created_by : uuid <<FK>>
+  titre : string
+  contenu : text
+  image_url : string
+  slug : string
+  publie : boolean
+  created_at : timestamp
+}
+
+entity "articles_categories" {
+  * article_id : uuid <<FK>>
+  * category_id : uuid <<FK>>
+}
+
+entity "likes" {
+  * id : uuid <<PK>>
+  --
+  * article_id : uuid <<FK>>
+  fingerprint : string
+  created_at : timestamp
+}
+
+entity "comments" {
+  * id : uuid <<PK>>
+  --
+  * article_id : uuid <<FK>>
+  pseudo : string
+  message : text
+  visible : boolean
+  created_at : timestamp
+}
+
+entity "blocked_fingerprints" {
+  * id : uuid <<PK>>
+  --
+  * blocked_by : uuid <<FK>>
+  fingerprint : string
+  raison : string
+  created_at : timestamp
+}
+
+admin_users ||--o{ categories : "1,1 -- 0,N"
+admin_users ||--o{ articles : "1,1 -- 0,N"
+admin_users ||--o{ blocked_fingerprints : "1,1 -- 0,N"
+articles ||--o{ articles_categories : "1,1 -- 0,N"
+categories ||--o{ articles_categories : "1,1 -- 0,N"
+articles ||--o{ likes : "1,1 -- 0,N"
+articles ||--o{ comments : "1,1 -- 0,N"
+@enduml
