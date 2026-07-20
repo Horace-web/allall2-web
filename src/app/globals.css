@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --- Base --- */
+  --background: #FAF3E7;   /* crème — le "papier" des cases */
+  --foreground: #161311;   /* encre — contours et texte */
+
+  /* --- Marque --- */
+  --primary: #F2C08C;          /* pêche — peau des persos, accent principal */
+  --primary-foreground: #161311;
+
+  --secondary: #5C7A52;        /* sauge — pull vert */
+  --secondary-foreground: #FAF3E7;
+
+  --tertiary: #3D5A80;         /* denim — pull bleu */
+  --tertiary-foreground: #FAF3E7;
+
+  --accent: #E8B84B;           /* or — réservé au CTA (bouton achat, like) */
+  --accent-foreground: #161311;
+
+  /* --- Neutres dérivés (cartes, bordures, texte secondaire) --- */
+  --card: #FFFFFF;
+  --card-foreground: var(--foreground);
+  --border: #161311;           /* bordure BD épaisse, pas un gris discret */
+  --muted: #E8DFC9;            /* variante de fond, sections alternées */
+  --muted-foreground: #6B655A;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-foreground: var(--tertiary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  /* --- Typo : à déclarer dans layout.tsx via next/font, voir note en dessous --- */
+  --font-display: var(--font-archivo-black);
+  --font-sans: var(--font-karla);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Pas de dark mode auto : le fond crème + cartes blanches fait partie
+   de l'identité de marque (le "papier" de tes planches), pas un choix
+   de confort d'affichage. Un mode sombre générique casserait ce
+   qui rend le site reconnaissable. Si un mode sombre est voulu un jour,
+   ce sera une palette pensée exprès, pas un simple inversion automatique. */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
