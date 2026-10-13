@@ -10,10 +10,26 @@ export type Blague = {
 
 export const blagues: Blague[] = [
   {
-    slug: "le-mendiant",
+    slug: "le-m",
     title: "Le mendiant et la clé",
-    image: "/blagues/mendiant.jpg",
+    image: "/blagues/dora.jpg",
     category: "Gaming",
+    categoryTone: "secondary",
+    likeCount: 2200,
+  },
+  {
+    slug: "le-me",
+    title: "Le mendiant et la clé",
+    image: "/blagues/dora.jpg",
+    category: "chance",
+    categoryTone: "secondary",
+    likeCount: 2200,
+  },
+  {
+    slug: "le-men",
+    title: "Le mendiant et la clé",
+    image: "/blagues/dora.jpg",
+    category: "chance",
     categoryTone: "secondary",
     likeCount: 2200,
   },

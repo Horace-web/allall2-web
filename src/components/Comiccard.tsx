@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { LikeButton } from "./Likebutton";
@@ -10,8 +12,6 @@ const TONE_STYLES: Record<Tone, string> = {
   tertiary: "bg-tertiary text-tertiary-foreground",
 };
 
-// Rotation légère et déterministe par carte (pas de random au render,
-// ça casserait l'hydratation SSR/CSR de Next.js).
 const ROTATIONS = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2"];
 function rotationFor(seed: string) {
   const i = seed.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
@@ -25,6 +25,7 @@ export function ComicCard({
   category,
   categoryTone = "primary",
   likeCount,
+  onImageClick,
 }: {
   slug: string;
   title: string;
@@ -32,8 +33,23 @@ export function ComicCard({
   category: string;
   categoryTone?: Tone;
   likeCount: number;
+  /** Si fourni, un clic sur l'image ouvre la lightbox au lieu de naviguer. */
+  onImageClick?: (slug: string) => void;
 }) {
   const rotation = rotationFor(slug);
+
+const imageBlock = (
+  <div className="relative w-full overflow-hidden rounded-sm border-2 border-border">
+    <Image
+      src={image}
+      alt={title}
+      width={800}
+      height={800}
+      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px"
+      className="h-auto w-full object-contain"
+    />
+  </div>
+);
 
   return (
     <div
@@ -45,17 +61,20 @@ export function ComicCard({
         "hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_var(--border)]",
       ].join(" ")}
     >
-      <Link href={`/blague/${slug}`} className="block">
-        <div className="relative aspect-square w-full overflow-hidden rounded-sm border-2 border-border">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px"
-            className="object-cover"
-          />
-        </div>
-      </Link>
+      {onImageClick ? (
+        <button
+          type="button"
+          onClick={() => onImageClick(slug)}
+          className="block w-full"
+          aria-label={`Agrandir : ${title}`}
+        >
+          {imageBlock}
+        </button>
+      ) : (
+        <Link href={`/blague/${slug}`} className="block">
+          {imageBlock}
+        </Link>
+      )}
 
       <div className="mt-2.5 flex items-center justify-between gap-2">
         <span
